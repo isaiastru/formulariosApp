@@ -1,0 +1,90 @@
+<h1>Reactive: Dinamícos</h1>
+<hr />
+
+<form (ngSubmit)="guardar()" autocomplete="off" [formGroup]="miFormulario">
+  <!-- Nombre -->
+  <div class="mb-3 row">
+    <label class="col-sm-3 col-form-label">Nombre</label>
+    <div class="col-sm-9">
+      <input
+        class="form-control"
+        placeholder="Nombre de la persona"
+        formControlName="nombre"
+      />
+      <span class="form-text text-danger" *ngIf="campoNoValido('nombre')"
+        >Debe poseer al menos 3 letras</span
+      >
+    </div>
+  </div>
+  <!-- Favoritos -->
+  <div class="mb-3 row">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Agregar Favorito"
+        [formControl]="nuevoFavorito"
+        (keyup.enter)="agregarFavorito()"
+      />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        (click)="agregarFavorito()"
+      >
+        <span class="form-text text-danger" *ngIf="campoNoValido('favoritos')"
+          >Debe poseer al menos 3 letras</span
+        >
+        Agregar
+      </button>
+    </div>
+  </div>
+
+  <!-- Lista de Favoritos -->
+  <div class="mb-3 row" formArrayName="favoritos">
+    <div
+      class="input-group mb-1"
+      *ngFor="let favorito of favoritoArray.controls; index as i"
+    >
+      <input type="text" class="form-control" [formControlName]="i" />
+      <button
+        class="btn btn-outline-danger"
+        type="button"
+        (click)="eliminarFavorito(i)"
+      >
+        Eliminar
+      </button>
+    </div>
+  </div>
+
+  <!-- Boton Agregar -->
+  <div class="row">
+    <div class="col-sm-12">
+      <button
+        type="button"
+        class="btn btn-primary float-end"
+        (click)="guardar()"
+      >
+        agregar
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="row">
+  <div class="col">
+    <span>valid</span>
+    <pre>{{ miFormulario.valid }}</pre>
+    <span>invalid</span>
+    <pre>{{ miFormulario.invalid }}</pre>
+
+    <span>Pristine</span>
+    <pre>{{ miFormulario.pristine }}</pre>
+
+    <span>Touched</span>
+    <pre>{{ miFormulario.touched }}</pre>
+    <span>value</span>
+    <pre>{{ miFormulario.value | json }}</pre>
+    <span>Favorito</span>
+    <pre>{{ nuevoFavorito.value }}</pre>
+  </div>
+</div>
